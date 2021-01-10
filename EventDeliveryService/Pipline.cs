@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace EventDeliveryService
+{
+    public class Pipline
+    {
+        public Int64 Id { get; set; }
+        public string Name { get; set; }
+        public DateTime? ProcessedAt { get; set; }
+        public byte[] ActualRowVersion { get; set; }
+        public bool? PrimaryKeyIsUsed { get; set; }
+        public string PrimaryKeySchemeJson { get; set; }
+        public bool? TransferToFlatTableIsEnabled { get; set; }
+        public string TransferToFlatTableSchemeJson { get; set; }
+    }
+}
