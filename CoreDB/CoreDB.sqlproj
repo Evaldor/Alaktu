@@ -69,6 +69,8 @@
     <Build Include="dbo\Tables\EventBuffer.sql" />
     <Build Include="Storage\Pf_EventBuffer.sql" />
     <Build Include="Storage\Ps_EventBuffer.sql" />
+    <Build Include="dbo\Tables\SourseType.sql" />
+    <None Include="Script\dbo.SourceType.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Script\SecuritySettings.sql" />

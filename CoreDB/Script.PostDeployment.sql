@@ -9,4 +9,14 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
+-- SCRIPTS START
+
 :r .\Script\SecuritySettings.sql
+
+-- SCRIPTS END 
+
+-- DATA SEEDING START
+
+:r .\Script\dbo.SourceType.sql
+
+-- DATA SEEDING END
