@@ -54,7 +54,7 @@ namespace EventDeliveryService
                     {
                         if (_namedTasks.ElementAt(namedTaskIndex ?? 0).task.Status.ToString() != "Running")
                         {
-                            _namedTasks.ElementAt(namedTaskIndex ?? 0).task = Task.Factory.StartNew(() => ExecuteProcessor(pipline, _workerConfig.WorkFolder));
+                            _namedTasks.ElementAt(namedTaskIndex ?? 0).task = Task.Factory.StartNew(() => ExecuteProcessor(pipline, _workerConfig));
                         }
                     }
                     else
@@ -63,7 +63,7 @@ namespace EventDeliveryService
 
                         _namedTasks.Add(namedTask);
 
-                        _namedTasks.Last<NamedTask>().task = Task.Factory.StartNew(() => ExecuteProcessor(pipline, _workerConfig.WorkFolder));
+                        _namedTasks.Last<NamedTask>().task = Task.Factory.StartNew(() => ExecuteProcessor(pipline, _workerConfig));
                     }
                 }
 
@@ -72,10 +72,10 @@ namespace EventDeliveryService
             }
         }
 
-        private static void ExecuteProcessor(Pipline pipline,string logFolder)
+        private static void ExecuteProcessor(Pipline pipline,WorkerConfig wc)
         {
             
-            Processor processor = new Processor(pipline, logFolder);
+            Processor processor = new Processor(pipline, wc.WorkFolder,wc.ConnString);
 
             processor.Execute();
 
@@ -92,18 +92,20 @@ namespace EventDeliveryService
                 string sql =
                     "SELECT [Id] " +
                     ",[Name] " +
-                    ",[SourceTypeId] " + //
-                    ",[SourseConnection] " + //
-                    ",[SourseCredentials] " + //
+                    ",[SourceTypeId] " +
+                    ",[SourseConnection] " +
+                    ",[SourseCredentials] " +
                     ",[LastProcessedAt] " +
                     ",[ActualRowVersion] " +
                     ",[PrimaryKeyIsUsed] " +
                     ",[PrimaryKeySchemeJson] " +
-                    ",[VersioningIsUsed] " + //
-                    ",[VersioningSchemeJson] " + //
+                    ",[VersioningIsUsed] " +
+                    ",[VersioningSchemeJson] " +
                     ",[TransferToFlatTableIsEnabled] " +
                     ",[TransferToFlatTableSchemeJson] " +
-                    ",[LastProcessedStatus] " + //
+                    ",[LastProcessedStatus] " +
+                    ",[BatchSize] " +
+                    ",[CurrentRow] " +
                     "FROM [dbo].[PiplineRegister]" +
                     "WHERE [IsEnabled] = 1 ";
 
@@ -127,7 +129,10 @@ namespace EventDeliveryService
                             pipline.VersioningIsUsed = (!reader.IsDBNull(9)) ? reader.GetBoolean(9) : pipline.VersioningIsUsed;
                             pipline.VersioningSchemeJson = (!reader.IsDBNull(10)) ? reader.GetString(10) : pipline.VersioningSchemeJson;
                             pipline.TransferToFlatTableIsEnabled = (!reader.IsDBNull(11)) ? reader.GetBoolean(11) : pipline.TransferToFlatTableIsEnabled;
-                            pipline.TransferToFlatTableSchemeJson = (!reader.IsDBNull(12)) ? reader.GetString(12) : pipline.TransferToFlatTableSchemeJson; 
+                            pipline.TransferToFlatTableSchemeJson = (!reader.IsDBNull(12)) ? reader.GetString(12) : pipline.TransferToFlatTableSchemeJson;
+                            pipline.LastProcessedStatus = (!reader.IsDBNull(13)) ? reader.GetString(13) : pipline.LastProcessedStatus;
+                            pipline.BatchSize = (!reader.IsDBNull(14)) ? reader.GetInt32(14) : 0;
+                            pipline.CurrentRow = reader.GetInt32(15);
 
                             piplineRegister.Add(pipline);
                         }

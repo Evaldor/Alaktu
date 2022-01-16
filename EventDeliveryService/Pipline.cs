@@ -20,5 +20,7 @@ namespace EventDeliveryService
         public bool? TransferToFlatTableIsEnabled { get; set; }
         public string TransferToFlatTableSchemeJson { get; set; }
         public string LastProcessedStatus { get; set; }
+        public Int32 BatchSize { get; set; }
+        public Int32 CurrentRow { get; set; }
     }
 }
