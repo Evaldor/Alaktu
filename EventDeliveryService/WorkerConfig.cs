@@ -7,5 +7,6 @@ namespace EventDeliveryService
     public class WorkerConfig
     {
         public string ConnString { get; set; }
+        public string WorkFolder { get; set; }
     }
 }

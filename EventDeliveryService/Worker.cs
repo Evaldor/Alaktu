@@ -54,7 +54,7 @@ namespace EventDeliveryService
                     {
                         if (_namedTasks.ElementAt(namedTaskIndex ?? 0).task.Status.ToString() != "Running")
                         {
-                            _namedTasks.ElementAt(namedTaskIndex ?? 0).task = Task.Factory.StartNew(() => ExecuteProcessor(pipline));
+                            _namedTasks.ElementAt(namedTaskIndex ?? 0).task = Task.Factory.StartNew(() => ExecuteProcessor(pipline, _workerConfig.WorkFolder));
                         }
                     }
                     else
@@ -63,7 +63,7 @@ namespace EventDeliveryService
 
                         _namedTasks.Add(namedTask);
 
-                        _namedTasks.Last<NamedTask>().task = Task.Factory.StartNew(() => ExecuteProcessor(pipline));
+                        _namedTasks.Last<NamedTask>().task = Task.Factory.StartNew(() => ExecuteProcessor(pipline, _workerConfig.WorkFolder));
                     }
                 }
 
@@ -72,13 +72,12 @@ namespace EventDeliveryService
             }
         }
 
-        private static void ExecuteProcessor(Pipline pipline)
+        private static void ExecuteProcessor(Pipline pipline,string logFolder)
         {
-            string config = pipline.Name;
+            
+            Processor processor = new Processor(pipline, logFolder);
 
-            Processor processor = new Processor(String.Concat("D:\\tmp\\",config,".txt"));
-
-            processor.WriteToFile();
+            processor.Execute();
 
         }
 
@@ -93,12 +92,18 @@ namespace EventDeliveryService
                 string sql =
                     "SELECT [Id] " +
                     ",[Name] " +
-                    ",[ProcessedAt] " +
+                    ",[SourceTypeId] " + //
+                    ",[SourseConnection] " + //
+                    ",[SourseCredentials] " + //
+                    ",[LastProcessedAt] " +
                     ",[ActualRowVersion] " +
                     ",[PrimaryKeyIsUsed] " +
                     ",[PrimaryKeySchemeJson] " +
+                    ",[VersioningIsUsed] " + //
+                    ",[VersioningSchemeJson] " + //
                     ",[TransferToFlatTableIsEnabled] " +
                     ",[TransferToFlatTableSchemeJson] " +
+                    ",[LastProcessedStatus] " + //
                     "FROM [dbo].[PiplineRegister]" +
                     "WHERE [IsEnabled] = 1 ";
 
@@ -112,12 +117,17 @@ namespace EventDeliveryService
 
                             pipline.Id = reader.GetInt64(0);
                             pipline.Name = reader.GetString(1);
-                            pipline.ProcessedAt = (!reader.IsDBNull(2)) ? reader.GetDateTime(2): pipline.ProcessedAt;
-                            pipline.ActualRowVersion = (!reader.IsDBNull(3)) ? reader.GetFieldValue<byte[]>(3) : pipline.ActualRowVersion;
-                            pipline.PrimaryKeyIsUsed = (!reader.IsDBNull(4)) ? reader.GetBoolean(4) : pipline.PrimaryKeyIsUsed;
-                            pipline.PrimaryKeySchemeJson = (!reader.IsDBNull(5)) ? reader.GetString(5) : pipline.PrimaryKeySchemeJson;
-                            pipline.TransferToFlatTableIsEnabled = (!reader.IsDBNull(6)) ? reader.GetBoolean(6) : pipline.TransferToFlatTableIsEnabled;
-                            pipline.TransferToFlatTableSchemeJson = (!reader.IsDBNull(7)) ? reader.GetString(7) : pipline.TransferToFlatTableSchemeJson; 
+                            pipline.SourceTypeId = reader.GetInt32(2);
+                            pipline.SourseConnection = (!reader.IsDBNull(3)) ? reader.GetString(3) : pipline.SourseConnection;
+                            pipline.SourseCredentials = (!reader.IsDBNull(4)) ? reader.GetString(4) : pipline.SourseCredentials;
+                            pipline.LastProcessedAt = (!reader.IsDBNull(5)) ? reader.GetDateTime(5): pipline.LastProcessedAt;
+                            pipline.ActualRowVersion = (!reader.IsDBNull(6)) ? reader.GetFieldValue<byte[]>(6) : pipline.ActualRowVersion;
+                            pipline.PrimaryKeyIsUsed = (!reader.IsDBNull(7)) ? reader.GetBoolean(7) : pipline.PrimaryKeyIsUsed;
+                            pipline.PrimaryKeySchemeJson = (!reader.IsDBNull(8)) ? reader.GetString(8) : pipline.PrimaryKeySchemeJson;
+                            pipline.VersioningIsUsed = (!reader.IsDBNull(9)) ? reader.GetBoolean(9) : pipline.VersioningIsUsed;
+                            pipline.VersioningSchemeJson = (!reader.IsDBNull(10)) ? reader.GetString(10) : pipline.VersioningSchemeJson;
+                            pipline.TransferToFlatTableIsEnabled = (!reader.IsDBNull(11)) ? reader.GetBoolean(11) : pipline.TransferToFlatTableIsEnabled;
+                            pipline.TransferToFlatTableSchemeJson = (!reader.IsDBNull(12)) ? reader.GetString(12) : pipline.TransferToFlatTableSchemeJson; 
 
                             piplineRegister.Add(pipline);
                         }

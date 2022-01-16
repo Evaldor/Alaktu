@@ -8,11 +8,17 @@ namespace EventDeliveryService
     {
         public Int64 Id { get; set; }
         public string Name { get; set; }
-        public DateTime? ProcessedAt { get; set; }
+        public Int32 SourceTypeId { get; set; }
+        public string SourseConnection { get; set; }
+        public string SourseCredentials { get; set; }
+        public DateTime? LastProcessedAt { get; set; }
         public byte[] ActualRowVersion { get; set; }
         public bool? PrimaryKeyIsUsed { get; set; }
         public string PrimaryKeySchemeJson { get; set; }
+        public bool? VersioningIsUsed { get; set; }
+        public string VersioningSchemeJson { get; set; }
         public bool? TransferToFlatTableIsEnabled { get; set; }
         public string TransferToFlatTableSchemeJson { get; set; }
+        public string LastProcessedStatus { get; set; }
     }
 }
