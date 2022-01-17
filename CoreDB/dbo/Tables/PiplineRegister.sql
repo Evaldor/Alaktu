@@ -14,8 +14,8 @@
     [TransferToFlatTableIsEnabled] BIT NULL,
     [TransferToFlatTableSchemeJson] NVARCHAR (MAX) NULL,
     [LastProcessedStatus] NVARCHAR(MAX),
-    [BatchSize] BIGINT NOT NULL CONSTRAINT [DF_PiplineRegister_BatchSize] DEFAULT (100000),
-    [CurrentRow] BIGINT NOT NULL CONSTRAINT [DF_PiplineRegister_CurrentRow] DEFAULT (0),
+    [BatchSize] INT NOT NULL CONSTRAINT [DF_PiplineRegister_BatchSize] DEFAULT (100000),
+    [CurrentRow] INT NOT NULL CONSTRAINT [DF_PiplineRegister_CurrentRow] DEFAULT (0),
     CONSTRAINT [PK_PiplineRegister] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [AK_PiplineRegister] UNIQUE([Name]),   
     CONSTRAINT [FK_SourceType] FOREIGN KEY ([SourceTypeId]) REFERENCES [dbo].[SourceType] ([Id])

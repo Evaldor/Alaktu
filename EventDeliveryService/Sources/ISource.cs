@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 
 namespace EventDeliveryService.Sources
@@ -8,7 +9,7 @@ namespace EventDeliveryService.Sources
     {
         Int32 GetSourceType();
         void Connect();
-        string[] Get();
+        DataTable Get();
         void Close();
     }
 }

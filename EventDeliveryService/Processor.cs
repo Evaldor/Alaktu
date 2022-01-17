@@ -40,44 +40,32 @@ namespace EventDeliveryService
 
                 sourceCSV.Connect();
 
-                string[] dataSet = sourceCSV.Get();
+                DataTable eventBatch = sourceCSV.Get();
 
                 sourceCSV.Close();
 
-                Write(dataSet);
+                Write(eventBatch);
             }
             if (_pipline.SourceTypeId == 2)
             {
-
+                //todo
             }
             else
             {
-                int j = 0;
-                while (j < 10)
-                {
-                    using (StreamWriter writer = File.AppendText(_logFolder + _pipline.Name + ".txt"))
-                    {
-
-
-                        writer.WriteLine(DateTimeOffset.Now.ToString());
-                    }
-
-                    Thread.Sleep(1000);
-                    j++;
-                }
+                //todo
             }     
         }
 
-        private void Write(string[] dataSet)
+        private void Write(DataTable eventBatch)
         {
             using (SqlConnection connection = new SqlConnection(_coreConnString))
             {
                 connection.Open();
 
                 string sql_create =
-                    "CREATE TABLE #EventBuffer " +
-                    "([EventBody] NVARCHAR (MAX) NULL" +
-                    ")";
+                    "CREATE TABLE #EventBatch " +
+                    "([eventBody] NVARCHAR (MAX) NULL" +
+                    ");";
 
                 using (SqlCommand command_create = new SqlCommand(sql_create, connection))
                 {
@@ -86,10 +74,8 @@ namespace EventDeliveryService
 
                 using (SqlBulkCopy sbc = new SqlBulkCopy(connection))
                 {
-                    sbc.DestinationTableName = "#EventBuffer";
-                    //sbc.NotifyAfter = 10000;
-                    //sbc.SqlRowsCopied += new SqlRowsCopiedEventHandler(s_SqlRowsCopied);
-                    sbc.WriteToServer(dataSet); // TODO здесь конвертнуть в дататэйбл и потом дописать хранимку.
+                    sbc.DestinationTableName = "#EventBatch";
+                    sbc.WriteToServer(eventBatch);
                     sbc.Close();
                 }
 
