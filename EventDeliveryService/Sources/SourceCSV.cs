@@ -13,10 +13,14 @@ namespace EventDeliveryService.Sources
 
         private readonly Pipline _pipline;
 
+        private SourceCSVSettings sourceCSVSettings;
+
         public SourceCSV(Pipline pipline)
         {
            sourceTypeId = 1;
             _pipline = pipline;
+
+            //sourceCSVSettings pipline.SourceTypeSettingsJson //TODO десериализавать а если пусто вставить значения по умолчанию
         }
 
         public Int32 GetSourceType()

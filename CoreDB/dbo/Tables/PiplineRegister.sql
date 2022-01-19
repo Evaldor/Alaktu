@@ -4,6 +4,7 @@
     [SourceTypeId] INT NULL,
     [SourseConnection] nvarchar(max),
     [SourseCredentials] nvarchar(max),
+    [SourceTypeSettingsJson] nvarchar(max),
     [IsEnabled] BIT NULL,
     [LastProcessedAt] DATETIME2 (7)  NULL,
     [ActualRowVersion] VARBINARY(8) NULL,

@@ -22,5 +22,6 @@ namespace EventDeliveryService
         public string LastProcessedStatus { get; set; }
         public Int32 BatchSize { get; set; }
         public Int32 CurrentRow { get; set; }
+        public string SourceTypeSettingsJson { get; set; }
     }
 }

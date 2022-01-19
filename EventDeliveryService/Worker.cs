@@ -106,7 +106,8 @@ namespace EventDeliveryService
                     ",[LastProcessedStatus] " +
                     ",[BatchSize] " +
                     ",[CurrentRow] " +
-                    "FROM [dbo].[PiplineRegister]" +
+                    ",[SourceTypeSettingsJson] " +
+                    "FROM [dbo].[PiplineRegister] " +
                     "WHERE [IsEnabled] = 1 ";
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
@@ -133,6 +134,7 @@ namespace EventDeliveryService
                             pipline.LastProcessedStatus = (!reader.IsDBNull(13)) ? reader.GetString(13) : pipline.LastProcessedStatus;
                             pipline.BatchSize = (!reader.IsDBNull(14)) ? reader.GetInt32(14) : 0;
                             pipline.CurrentRow = reader.GetInt32(15);
+                            pipline.SourceTypeSettingsJson = (!reader.IsDBNull(16)) ? reader.GetString(16) : pipline.SourceTypeSettingsJson;
 
                             piplineRegister.Add(pipline);
                         }
