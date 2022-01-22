@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventDeliveryService", "EventDeliveryService\EventDeliveryService.csproj", "{073498E2-A58A-486E-BA21-75BF4518200A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventDeliveryService", "EventDeliveryService\EventDeliveryService.csproj", "{073498E2-A58A-486E-BA21-75BF4518200A}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "CoreDB", "CoreDB\CoreDB.sqlproj", "{32567AC6-8A45-4480-A3DF-4C3A744FB032}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OperatorApplication", "OperatorApplication\OperatorApplication.csproj", "{716402EF-EF41-40BC-B3A9-ECE9B834DD38}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,10 @@ Global
 		{32567AC6-8A45-4480-A3DF-4C3A744FB032}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32567AC6-8A45-4480-A3DF-4C3A744FB032}.Release|Any CPU.Build.0 = Release|Any CPU
 		{32567AC6-8A45-4480-A3DF-4C3A744FB032}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{716402EF-EF41-40BC-B3A9-ECE9B834DD38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{716402EF-EF41-40BC-B3A9-ECE9B834DD38}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{716402EF-EF41-40BC-B3A9-ECE9B834DD38}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{716402EF-EF41-40BC-B3A9-ECE9B834DD38}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
