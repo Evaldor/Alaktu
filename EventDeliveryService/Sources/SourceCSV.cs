@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Data;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace EventDeliveryService.Sources
 {
@@ -20,7 +22,12 @@ namespace EventDeliveryService.Sources
            sourceTypeId = 1;
             _pipline = pipline;
 
-            //sourceCSVSettings pipline.SourceTypeSettingsJson //TODO десериализавать а если пусто вставить значения по умолчанию
+            sourceCSVSettings = new SourceCSVSettings();
+
+            string xStr = JsonSerializer.Serialize(sourceCSVSettings);
+
+            sourceCSVSettings = JsonSerializer.Deserialize<SourceCSVSettings>(_pipline.SourceTypeSettingsJson ?? xStr);
+
         }
 
         public Int32 GetSourceType()
@@ -31,32 +38,48 @@ namespace EventDeliveryService.Sources
         {
 
         }
-        public DataTable Get()
+        public EventBatch GetEventBatch()
         {
             //IEnumerable<String> eBatch = File.ReadLines(_pipline.SourseConnection).Skip(_pipline.CurrentRow).Take(_pipline.CurrentRow + _pipline.BatchSize);
 
-            DataTable eventBatch = new DataTable();
+            EventBatch eventBatch = new EventBatch();
+            eventBatch.Batch = new DataTable();
 
             DataColumn column;
             DataRow row;
+            string header = "";
+            int currentRow = _pipline.CurrentRow;
 
             column = new DataColumn();
             column.DataType = System.Type.GetType("System.String");
             column.ColumnName = "eventBody";
 
-            eventBatch.Columns.Add(column);
+            eventBatch.Batch.Columns.Add(column);
 
+            if (sourceCSVSettings.IsWithHeader) 
+            {
+                header = File.ReadLines(_pipline.SourseConnection).First();
+                currentRow = currentRow == 0 ? 1 : currentRow;
+            }
 
-            string[] lines = File.ReadLines(_pipline.SourseConnection).Skip(_pipline.CurrentRow).Take(_pipline.CurrentRow + _pipline.BatchSize).ToArray();
+            string[] lines = File.ReadLines(_pipline.SourseConnection).Skip(currentRow).Take(_pipline.BatchSize).ToArray();
 
             foreach (string line in lines)
             {
-                row = eventBatch.NewRow();
-                row["eventBody"] = line;
-                eventBatch.Rows.Add(row);
+                row = eventBatch.Batch.NewRow();
+                row["eventBody"] = header+line;
+                eventBatch.Batch.Rows.Add(row);
             }
 
-            //Int64 nextCurrentRow = _pipline.CurrentRow;
+            if (lines.Length < _pipline.BatchSize)
+            {
+                eventBatch.LastRowNumber = 0;
+            }
+            else
+            {
+                eventBatch.LastRowNumber = currentRow + lines.Length;
+            }
+            
 
             return eventBatch;
         }

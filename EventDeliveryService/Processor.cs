@@ -40,7 +40,7 @@ namespace EventDeliveryService
 
                 sourceCSV.Connect();
 
-                DataTable eventBatch = sourceCSV.Get();
+                EventBatch eventBatch = sourceCSV.GetEventBatch();
 
                 sourceCSV.Close();
 
@@ -56,7 +56,7 @@ namespace EventDeliveryService
             }     
         }
 
-        private void Write(DataTable eventBatch)
+        private void Write(EventBatch eventBatch)
         {
             using (SqlConnection connection = new SqlConnection(_coreConnString))
             {
@@ -75,7 +75,7 @@ namespace EventDeliveryService
                 using (SqlBulkCopy sbc = new SqlBulkCopy(connection))
                 {
                     sbc.DestinationTableName = "#EventBatch";
-                    sbc.WriteToServer(eventBatch);
+                    sbc.WriteToServer(eventBatch.Batch);
                     sbc.Close();
                 }
 
@@ -84,6 +84,7 @@ namespace EventDeliveryService
                     command_process.CommandType = CommandType.StoredProcedure;
 
                     command_process.Parameters.Add(new SqlParameter("@PiplineRegisterId", _pipline.Id));
+                    command_process.Parameters.Add(new SqlParameter("@LastRowNumber", eventBatch.LastRowNumber));
 
                     command_process.ExecuteNonQuery();
                 }

@@ -9,7 +9,7 @@ namespace EventDeliveryService.Sources
     {
         Int32 GetSourceType();
         void Connect();
-        DataTable Get();
+        EventBatch GetEventBatch();
         void Close();
     }
 }
