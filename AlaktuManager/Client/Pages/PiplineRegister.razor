@@ -1,0 +1,40 @@
+﻿@page "/pipline_register"
+@using AlaktuManager.Shared
+@inject HttpClient Http
+
+<PageTitle>Pipline Register</PageTitle>
+
+<h1>Pipline Register</h1>
+
+@if (piplines == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pipline in piplines)
+            {
+                <tr>
+                    <td>@pipline.Id.ToString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Pipline[]? piplines;
+
+    protected override async Task OnInitializedAsync()
+    {
+        piplines = await Http.GetFromJsonAsync<Pipline[]>("Pipline");
+    }
+}
+
