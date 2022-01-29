@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Collections.Concurrent;
 using System.Data.SqlClient;
+using AlaktuManager.Shared;
 
 namespace EventDeliveryService
 {

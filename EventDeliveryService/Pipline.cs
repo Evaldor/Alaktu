@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EventDeliveryService
 {
-    public class Pipline
+    public class XPipline 
     {
         public Int64 Id { get; set; }
         public string Name { get; set; }

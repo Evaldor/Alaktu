@@ -6,6 +6,7 @@ using System.Linq;
 using System.Data;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using AlaktuManager.Shared;
 
 namespace EventDeliveryService.Sources
 {

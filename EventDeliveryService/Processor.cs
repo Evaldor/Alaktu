@@ -6,6 +6,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using EventDeliveryService.Sources;
+using AlaktuManager.Shared;
 
 namespace EventDeliveryService
 {

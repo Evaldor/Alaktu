@@ -1,4 +1,7 @@
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using AlaktuManager.Server.Repository.EFCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +9,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+builder.Services.AddDbContext<AlaktuManagerServerContext>(options =>
+
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AlaktuManagerServerContext")));
+
+builder.Services.AddScoped<EfCorePiplineRepository>();
 
 var app = builder.Build();
 
