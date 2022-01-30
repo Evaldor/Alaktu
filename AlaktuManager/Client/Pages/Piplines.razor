@@ -1,0 +1,28 @@
+﻿@page "/piplines"
+@using AlaktuManager.Client.Services
+@using AlaktuManager.Shared
+
+<PageTitle>Alaktu. Manage piplines</PageTitle>
+
+<h1>Manage piplines</h1>
+
+    <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+        Data="piplines" TItem="Pipline" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+        <Columns>
+            <RadzenDataGridColumn TItem="Pipline" Property="Id" Filterable="false" Title="ID" Frozen="true" Width="70px" TextAlign="TextAlign.Center" />
+            <RadzenDataGridColumn TItem="Pipline" Property="Name" Frozen="true" Width="140px" />
+        </Columns>
+    </RadzenDataGrid>
+
+@code {
+
+    public List<Pipline> piplines { get; set; }
+
+    [Inject]
+    public IPiplineService piplineService { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        piplines = (await piplineService.GetPiplines()).ToList();
+    }
+}
