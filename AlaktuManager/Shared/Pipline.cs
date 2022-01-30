@@ -15,6 +15,7 @@ namespace AlaktuManager.Shared
         public Int32 SourceTypeId { get; set; }
         public string? SourseConnection { get; set; }
         public string? SourseCredentials { get; set; }
+        public bool IsEnabled { get; set; }
         public DateTime? LastProcessedAt { get; set; }
         public byte[]? ActualRowVersion { get; set; }
         public bool? PrimaryKeyIsUsed { get; set; }

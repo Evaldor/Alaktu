@@ -108,6 +108,7 @@ namespace EventDeliveryService
                     ",[BatchSize] " +
                     ",[CurrentRow] " +
                     ",[SourceTypeSettingsJson] " +
+                    ",[IsEnabled] " +
                     "FROM [dbo].[Pipline] " +
                     "WHERE [IsEnabled] = 1 ";
 
@@ -136,6 +137,7 @@ namespace EventDeliveryService
                             pipline.BatchSize = (!reader.IsDBNull(14)) ? reader.GetInt32(14) : 0;
                             pipline.CurrentRow = reader.GetInt32(15);
                             pipline.SourceTypeSettingsJson = (!reader.IsDBNull(16)) ? reader.GetString(16) : pipline.SourceTypeSettingsJson;
+                            pipline.IsEnabled = (!reader.IsDBNull(17)) ? reader.GetBoolean(17) : pipline.IsEnabled;
 
                             piplineRegister.Add(pipline);
                         }

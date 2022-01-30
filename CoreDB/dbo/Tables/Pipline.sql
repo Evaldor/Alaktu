@@ -5,7 +5,7 @@
     [SourseConnection] nvarchar(max),
     [SourseCredentials] nvarchar(max),
     [SourceTypeSettingsJson] nvarchar(max),
-    [IsEnabled] BIT NULL,
+    [IsEnabled] BIT NOT NULL CONSTRAINT [DF_Pipline_IsEnabled] DEFAULT (0),
     [LastProcessedAt] DATETIME2 (7)  NULL,
     [ActualRowVersion] VARBINARY(8) NULL,
     [PrimaryKeyIsUsed] BIT NULL,

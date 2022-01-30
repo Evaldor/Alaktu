@@ -6,16 +6,29 @@
 
 <h1>Manage piplines</h1>
 
-    <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
-        Data="piplines" TItem="Pipline" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or">
+    <RadzenDataGrid IsLoading="@isLoading" Count="@count" Data="@piplines" LoadData="@OnInitializedAsync" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterMode="FilterMode.Advanced" AllowSorting="true" AllowFiltering="true" AllowPaging="true" PageSize="4" PagerHorizontalAlign="HorizontalAlign.Center" 
+        TItem="Pipline" ColumnWidth="200px">
+    
         <Columns>
             <RadzenDataGridColumn TItem="Pipline" Property="Id" Filterable="false" Title="ID" Frozen="true" Width="70px" TextAlign="TextAlign.Center" />
-            <RadzenDataGridColumn TItem="Pipline" Property="Name" Frozen="true" Width="140px" />
+            <RadzenDataGridColumn TItem="Pipline" Property="Name" Title="Name" Frozen="true" Width="140px" />
+            <RadzenDataGridColumn TItem="Pipline" Property="SourceTypeId" Title="Source Type" Frozen="true" Width="140px" />
+            <RadzenDataGridColumn TItem="Pipline" Property="IsEnabled" Title="Is Enabled" Frozen="true" Width="140px" />
+            <RadzenDataGridColumn TItem="Pipline" Property="LastProcessedAt" Title="Last Processed At" Frozen="true" Width="140px" />
+            <RadzenDataGridColumn TItem="Pipline" Property="ActualRowVersion" Title="Actual Row Version" Frozen="true" Width="140px" />
+            <RadzenDataGridColumn TItem="Pipline" Property="PrimaryKeyIsUsed" Title="Primary Key Is Used" Frozen="true" Width="140px" />
+            <RadzenDataGridColumn TItem="Pipline" Property="VersioningIsUsed" Title="Versioning Is Used" Frozen="true" Width="140px" />  
+            <RadzenDataGridColumn TItem="Pipline" Property="TransferToFlatTableIsEnabled" Title="Transfer To Flat Table Is Enabled" Frozen="true" Width="140px" />  
+            <RadzenDataGridColumn TItem="Pipline" Property="LastProcessedStatus" Title="Last Processed Status" Frozen="true" Width="140px" />
+            <RadzenDataGridColumn TItem="Pipline" Property="BatchSize" Title="Batch Size" Frozen="true" Width="140px" />
+            <RadzenDataGridColumn TItem="Pipline" Property="CurrentRow" Title="Current Row" Frozen="true" Width="140px" />
         </Columns>
     </RadzenDataGrid>
 
 @code {
 
+    bool isLoading;
+    int count;
     public List<Pipline> piplines { get; set; }
 
     [Inject]
@@ -23,6 +36,13 @@
 
     protected override async Task OnInitializedAsync()
     {
+        isLoading = true;
+
         piplines = (await piplineService.GetPiplines()).ToList();
+
+        count = piplines.Count;
+
+        isLoading = false;
     }
+
 }
