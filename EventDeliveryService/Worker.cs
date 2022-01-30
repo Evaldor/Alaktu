@@ -108,7 +108,7 @@ namespace EventDeliveryService
                     ",[BatchSize] " +
                     ",[CurrentRow] " +
                     ",[SourceTypeSettingsJson] " +
-                    "FROM [dbo].[PiplineRegister] " +
+                    "FROM [dbo].[Pipline] " +
                     "WHERE [IsEnabled] = 1 ";
 
                 using (SqlCommand command = new SqlCommand(sql, connection))

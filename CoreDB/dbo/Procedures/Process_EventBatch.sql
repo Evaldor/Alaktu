@@ -1,50 +1,50 @@
 ﻿CREATE PROCEDURE [dbo].[Process_EventBatch]
-	@PiplineRegisterId BIGINT
-	,@LastRowNumber BIGINT
+    @PiplineId BIGINT
+    ,@LastRowNumber BIGINT
 AS
 BEGIN 
 
-	SET NOCOUNT ON;
+    SET NOCOUNT ON;
 
-	IF OBJECT_ID('tempdb..#EventBatch') IS NULL
-		CREATE TABLE #EventBatch  
-		([eventBody] NVARCHAR (MAX) NULL
-		);
+    IF OBJECT_ID('tempdb..#EventBatch') IS NULL
+        CREATE TABLE #EventBatch  
+        ([eventBody] NVARCHAR (MAX) NULL
+        );
 
 
-	BEGIN TRY
+    BEGIN TRY
 
-		BEGIN TRAN
+        BEGIN TRAN
 
-			INSERT INTO [dbo].[EventBuffer] 
-				([CreatedAt]
-				,[PiplineRegisterId]
-				,[EventBody]
-				)
-			SELECT 
-				SYSDATETIME()
-				,@PiplineRegisterId
-				,eventBody
-			FROM #EventBatch
+            INSERT INTO [dbo].[EventBuffer] 
+                ([CreatedAt]
+                ,[PiplineId]
+                ,[EventBody]
+                )
+            SELECT 
+                SYSDATETIME()
+                ,@PiplineId
+                ,eventBody
+            FROM #EventBatch
 
-			UPDATE  [dbo].[PiplineRegister]
-				SET [LastProcessedAt] = SYSDATETIME()
-					,[LastProcessedStatus] = 'SUCCESS'
-					,[CurrentRow] = @LastRowNumber
-			WHERE [Id] = @PiplineRegisterId
+            UPDATE  [dbo].[Pipline]
+                SET [LastProcessedAt] = SYSDATETIME()
+                    ,[LastProcessedStatus] = 'SUCCESS'
+                    ,[CurrentRow] = @LastRowNumber
+            WHERE [Id] = @PiplineId
 
-		COMMIT TRAN
+        COMMIT TRAN
 
-	END TRY
-	BEGIN CATCH
+    END TRY
+    BEGIN CATCH
 
-		ROLLBACK TRAN
+        ROLLBACK TRAN
 
-		UPDATE  [dbo].[PiplineRegister]
-			SET [LastProcessedAt] = SYSDATETIME()
-				,[LastProcessedStatus] = 'FAILED'
-		WHERE [Id] = @PiplineRegisterId
+        UPDATE  [dbo].[Pipline]
+            SET [LastProcessedAt] = SYSDATETIME()
+                ,[LastProcessedStatus] = 'FAILED'
+        WHERE [Id] = @PiplineId
 
-	END CATCH
+    END CATCH
 
 END

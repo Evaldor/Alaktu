@@ -84,7 +84,7 @@ namespace EventDeliveryService
                 {
                     command_process.CommandType = CommandType.StoredProcedure;
 
-                    command_process.Parameters.Add(new SqlParameter("@PiplineRegisterId", _pipline.Id));
+                    command_process.Parameters.Add(new SqlParameter("@PiplineId", _pipline.Id));
                     command_process.Parameters.Add(new SqlParameter("@LastRowNumber", eventBatch.LastRowNumber));
 
                     command_process.ExecuteNonQuery();

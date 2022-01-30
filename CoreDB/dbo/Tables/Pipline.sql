@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[PiplineRegister] (
+﻿CREATE TABLE [dbo].[Pipline] (
     [Id] BIGINT IDENTITY (1, 1) NOT NULL,
     [Name] NVARCHAR (100) NULL,
     [SourceTypeId] INT NULL,
@@ -15,9 +15,9 @@
     [TransferToFlatTableIsEnabled] BIT NULL,
     [TransferToFlatTableSchemeJson] NVARCHAR (MAX) NULL,
     [LastProcessedStatus] NVARCHAR(MAX),
-    [BatchSize] INT NOT NULL CONSTRAINT [DF_PiplineRegister_BatchSize] DEFAULT (100000),
-    [CurrentRow] INT NOT NULL CONSTRAINT [DF_PiplineRegister_CurrentRow] DEFAULT (0),
-    CONSTRAINT [PK_PiplineRegister] PRIMARY KEY CLUSTERED ([Id] ASC),
-    CONSTRAINT [AK_PiplineRegister] UNIQUE([Name]),   
+    [BatchSize] INT NOT NULL CONSTRAINT [DF_Pipline_BatchSize] DEFAULT (100000),
+    [CurrentRow] INT NOT NULL CONSTRAINT [DF_Pipline_CurrentRow] DEFAULT (0),
+    CONSTRAINT [PK_Pipline] PRIMARY KEY CLUSTERED ([Id] ASC),
+    CONSTRAINT [AK_Pipline] UNIQUE([Name]),   
     CONSTRAINT [FK_SourceType] FOREIGN KEY ([SourceTypeId]) REFERENCES [dbo].[SourceType] ([Id])
 );

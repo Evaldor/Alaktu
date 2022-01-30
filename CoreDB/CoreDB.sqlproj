@@ -66,7 +66,7 @@
     <Folder Include="dbo\Procedures" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Tables\PiplineRegister.sql" />
+    <Build Include="dbo\Tables\Pipline.sql" />
     <Build Include="dbo\Tables\EventBuffer.sql" />
     <Build Include="Storage\Pf_EventBuffer.sql" />
     <Build Include="Storage\Ps_EventBuffer.sql" />
