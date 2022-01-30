@@ -9,7 +9,11 @@
 
 @if (piplines == null)
 {
-    <p><em>Loading...</em></p>
+    <div class="align-self-center">
+        <RadzenCard>
+            <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+        </RadzenCard>
+    </div>
 }
 else
 {
