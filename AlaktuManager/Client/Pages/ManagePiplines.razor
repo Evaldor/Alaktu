@@ -1,10 +1,10 @@
-﻿@page "/pipline_register"
+﻿@page "/manage_piplines"
 @using AlaktuManager.Shared
 @inject HttpClient Http
 
-<PageTitle>Pipline Register</PageTitle>
+<PageTitle>Alaktu. Manage piplines</PageTitle>
 
-<h1>Pipline Register</h1>
+<h1>Manage piplines</h1>
 
 @if (piplines == null)
 {
@@ -34,7 +34,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        piplines = await Http.GetFromJsonAsync<Pipline[]>("Pipline");
+        piplines = await Http.GetFromJsonAsync<Pipline[]>("api/Piplines");
     }
 }
-
