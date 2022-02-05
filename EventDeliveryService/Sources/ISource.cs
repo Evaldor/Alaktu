@@ -7,7 +7,7 @@ namespace EventDeliveryService.Sources
 {
     interface ISource
     {
-        Int32 GetSourceType();
+        Int64 GetSourceType();
         void Connect();
         EventBatch GetEventBatch();
         void Close();

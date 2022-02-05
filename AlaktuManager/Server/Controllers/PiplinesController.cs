@@ -12,5 +12,12 @@ namespace AlaktuManager.Server.Controllers
         {
 
         }
+
+        // GET: api/[controller]/view
+        [HttpGet("View")]
+        public async Task<ActionResult<IEnumerable<Pipline>>> GetView()
+        {
+            return await repository.GetView();
+        }
     }
 }

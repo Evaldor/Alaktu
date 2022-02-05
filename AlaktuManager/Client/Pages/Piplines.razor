@@ -12,7 +12,7 @@
         <Columns>
             <RadzenDataGridColumn TItem="Pipline" Property="Id" Filterable="false" Title="ID" Frozen="true" Width="70px" TextAlign="TextAlign.Center" />
             <RadzenDataGridColumn TItem="Pipline" Property="Name" Title="Name" Frozen="true" Width="140px" />
-            <RadzenDataGridColumn TItem="Pipline" Property="SourceTypeId" Title="Source Type" Frozen="true" Width="140px" />
+            <RadzenDataGridColumn TItem="Pipline" Property="SourceType.Name" Title="Source Type" Frozen="true" Width="140px" />
             <RadzenDataGridColumn TItem="Pipline" Property="IsEnabled" Title="Is Enabled" Frozen="true" Width="140px" />
             <RadzenDataGridColumn TItem="Pipline" Property="LastProcessedAt" Title="Last Processed At" Frozen="true" Width="140px" />
             <RadzenDataGridColumn TItem="Pipline" Property="ActualRowVersion" Title="Actual Row Version" Frozen="true" Width="140px" />
@@ -38,7 +38,7 @@
     {
         isLoading = true;
 
-        piplines = (await piplineService.GetAll()).ToList();
+        piplines = (await piplineService.GetView()).ToList();
 
         count = piplines.Count;
 

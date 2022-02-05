@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using AlaktuManager.Shared;
 
 namespace AlaktuManager.Server.Repository.EFCore
@@ -9,7 +7,7 @@ namespace AlaktuManager.Server.Repository.EFCore
         where TEntity : class, IEntity
         where TContext : DbContext
     {
-        private readonly TContext context;
+        public readonly TContext context;
         public EfCoreRepository(TContext context)
         {
             this.context = context;
@@ -43,6 +41,12 @@ namespace AlaktuManager.Server.Repository.EFCore
         public async Task<List<TEntity>> GetAll()
         {
             return await context.Set<TEntity>().ToListAsync();
+        }
+
+        public virtual async Task<List<TEntity>> GetView()
+        {
+            //return await context.Pipline.Include("SourceType").ToListAsync();
+            throw new NotImplementedException();
         }
 
         public async Task<TEntity> Update(TEntity entity)

@@ -10,7 +10,7 @@ namespace AlaktuManager.Server.Controllers
         where TEntity : class, IEntity
         where TRepository : IRepository<TEntity>
     {
-        private readonly TRepository repository;
+        public readonly TRepository repository;
 
         public AlaktuManagerServerController(TRepository repository)
         {

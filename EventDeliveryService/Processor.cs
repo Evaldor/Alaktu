@@ -14,8 +14,6 @@ namespace EventDeliveryService
     {
         private readonly Pipline _pipline;
 
-        private readonly List<SourceType> _sourceTypes;
-
         private string _logFolder;
 
         private string _coreConnString;
@@ -23,24 +21,13 @@ namespace EventDeliveryService
         public Processor(Pipline pipline, string logFolder, string coreConnString)
         {
             _pipline = pipline;
-
-            _sourceTypes = new List<SourceType>();
-            SourceType _sourceType = new SourceType();
-            _sourceType.Id = 1;
-            _sourceType.Name = "CSV";
-            _sourceTypes.Add(_sourceType);
-            _sourceType.Id = 2;
-            _sourceType.Name = "Excel";
-            _sourceTypes.Add(_sourceType);
-
             _logFolder = logFolder;
             _coreConnString = coreConnString;
-
         }
         public void Execute()
         {
 
-            if (_pipline.SourceTypeId == 1)
+            if (_pipline.SourceTypeId == 1) //CSV
             {
                 SourceCSV sourceCSV = new SourceCSV(_pipline);
 
@@ -52,7 +39,7 @@ namespace EventDeliveryService
 
                 Write(eventBatch);
             }
-            if (_pipline.SourceTypeId == 2)
+            if (_pipline.SourceTypeId == 2) //Excel
             {
                 //todo
             }

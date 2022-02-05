@@ -1,4 +1,5 @@
 ﻿using AlaktuManager.Shared;
+using Microsoft.EntityFrameworkCore;
 
 namespace AlaktuManager.Server.Repository.EFCore
 {
@@ -9,5 +10,9 @@ namespace AlaktuManager.Server.Repository.EFCore
 
         }
         // We can add new methods specific to this repository here in the future
+        public override async Task<List<Pipline>> GetView()
+        {
+            return await context.Pipline.Include("SourceType").ToListAsync();
+        }
     }
 }
