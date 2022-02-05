@@ -15,6 +15,7 @@ builder.Services.AddDbContext<AlaktuManagerServerContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AlaktuManagerServerContext")));
 
 builder.Services.AddScoped<EfCorePiplineRepository>();
+builder.Services.AddScoped<EfCoreSourceTypeRepository>();
 
 var app = builder.Build();
 

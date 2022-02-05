@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using AlaktuManager.Shared;
 using AlaktuManager.Server.Repository;
 
@@ -31,44 +29,44 @@ namespace AlaktuManager.Server.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<TEntity>> Get(int id)
         {
-            var movie = await repository.Get(id);
-            if (movie == null)
+            var entity = await repository.Get(id);
+            if (entity == null)
             {
                 return NotFound();
             }
-            return movie;
+            return entity;
         }
 
         // PUT: api/[controller]/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, TEntity movie)
+        public async Task<IActionResult> Put(int id, TEntity entity)
         {
-            if (id != movie.Id)
+            if (id != entity.Id)
             {
                 return BadRequest();
             }
-            await repository.Update(movie);
+            await repository.Update(entity);
             return NoContent();
         }
 
         // POST: api/[controller]
         [HttpPost]
-        public async Task<ActionResult<TEntity>> Post(TEntity movie)
+        public async Task<ActionResult<TEntity>> Post(TEntity entity)
         {
-            await repository.Add(movie);
-            return CreatedAtAction("Get", new { id = movie.Id }, movie);
+            await repository.Add(entity);
+            return CreatedAtAction("Get", new { id = entity.Id }, entity);
         }
 
         // DELETE: api/[controller]/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<TEntity>> Delete(int id)
         {
-            var movie = await repository.Delete(id);
-            if (movie == null)
+            var entity = await repository.Delete(id);
+            if (entity == null)
             {
                 return NotFound();
             }
-            return movie;
+            return entity;
         }
 
     }

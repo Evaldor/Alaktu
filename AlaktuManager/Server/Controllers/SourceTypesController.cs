@@ -6,9 +6,9 @@ namespace AlaktuManager.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class PiplinesController : AlaktuManagerServerController<Pipline, EfCorePiplineRepository>
+    public class SourceTypesController : AlaktuManagerServerController<SourceType, EfCoreSourceTypeRepository>
     {
-        public PiplinesController(EfCorePiplineRepository repository) : base(repository)
+        public SourceTypesController(EfCoreSourceTypeRepository repository) : base(repository)
         {
 
         }

@@ -32,13 +32,13 @@
     public List<Pipline> piplines { get; set; }
 
     [Inject]
-    public IPiplineService piplineService { get; set; }
+    public IService<Pipline> piplineService { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         isLoading = true;
 
-        piplines = (await piplineService.GetPiplines()).ToList();
+        piplines = (await piplineService.GetAll()).ToList();
 
         count = piplines.Count;
 

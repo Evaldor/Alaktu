@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace AlaktuManager.Shared
 {
@@ -12,7 +7,7 @@ namespace AlaktuManager.Shared
         [Required]
         public Int64 Id { get; set; }
         public string? Name { get; set; }
-        public Int32 SourceTypeId { get; set; }
+        public Int64 SourceTypeId { get; set; }
         public string? SourseConnection { get; set; }
         public string? SourseCredentials { get; set; }
         public bool IsEnabled { get; set; }

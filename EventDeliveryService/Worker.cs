@@ -122,7 +122,7 @@ namespace EventDeliveryService
 
                             pipline.Id = reader.GetInt64(0);
                             pipline.Name = reader.GetString(1);
-                            pipline.SourceTypeId = reader.GetInt32(2);
+                            pipline.SourceTypeId = reader.GetInt64(2);
                             pipline.SourseConnection = (!reader.IsDBNull(3)) ? reader.GetString(3) : pipline.SourseConnection;
                             pipline.SourseCredentials = (!reader.IsDBNull(4)) ? reader.GetString(4) : pipline.SourseCredentials;
                             pipline.LastProcessedAt = (!reader.IsDBNull(5)) ? reader.GetDateTime(5): pipline.LastProcessedAt;

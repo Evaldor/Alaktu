@@ -2,9 +2,9 @@
 
 namespace AlaktuManager.Server.Repository.EFCore
 {
-    public class EfCorePiplineRepository : EfCoreRepository<Pipline, AlaktuManagerServerContext>
+    public class EfCoreSourceTypeRepository : EfCoreRepository<SourceType, AlaktuManagerServerContext>
     {
-        public EfCorePiplineRepository(AlaktuManagerServerContext context) : base(context)
+        public EfCoreSourceTypeRepository(AlaktuManagerServerContext context) : base(context)
         {
 
         }

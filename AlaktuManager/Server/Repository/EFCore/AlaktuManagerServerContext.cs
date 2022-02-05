@@ -16,5 +16,6 @@ namespace AlaktuManager.Server.Repository.EFCore
         }
 
         public DbSet<AlaktuManager.Shared.Pipline> Pipline { get; set; }
+        public DbSet<AlaktuManager.Shared.SourceType> SourceType { get; set; }
     }
 }

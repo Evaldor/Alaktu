@@ -14,7 +14,7 @@ namespace EventDeliveryService
     {
         private readonly Pipline _pipline;
 
-        private Dictionary<int, string> _sourceType;
+        private readonly List<SourceType> _sourceTypes;
 
         private string _logFolder;
 
@@ -24,9 +24,14 @@ namespace EventDeliveryService
         {
             _pipline = pipline;
 
-            _sourceType = new Dictionary<int, string>();
-            _sourceType.Add(1, "CSV");
-            _sourceType.Add(2, "Excel");
+            _sourceTypes = new List<SourceType>();
+            SourceType _sourceType = new SourceType();
+            _sourceType.Id = 1;
+            _sourceType.Name = "CSV";
+            _sourceTypes.Add(_sourceType);
+            _sourceType.Id = 2;
+            _sourceType.Name = "Excel";
+            _sourceTypes.Add(_sourceType);
 
             _logFolder = logFolder;
             _coreConnString = coreConnString;

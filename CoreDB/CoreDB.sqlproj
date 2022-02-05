@@ -70,7 +70,7 @@
     <Build Include="dbo\Tables\EventBuffer.sql" />
     <Build Include="Storage\Pf_EventBuffer.sql" />
     <Build Include="Storage\Ps_EventBuffer.sql" />
-    <Build Include="dbo\Tables\SourseType.sql" />
+    <Build Include="dbo\Tables\SourceType.sql" />
     <None Include="Script\dbo.SourceType.sql" />
     <Build Include="dbo\Procedures\Process_EventBatch.sql" />
   </ItemGroup>

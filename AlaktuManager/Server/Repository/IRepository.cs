@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using AlaktuManager.Shared;
+﻿using AlaktuManager.Shared;
 
 namespace AlaktuManager.Server.Repository
 {

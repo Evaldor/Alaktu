@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[Pipline] (
     [Id] BIGINT IDENTITY (1, 1) NOT NULL,
     [Name] NVARCHAR (100) NULL,
-    [SourceTypeId] INT NULL,
+    [SourceTypeId] BIGINT NULL,
     [SourseConnection] nvarchar(max),
     [SourseCredentials] nvarchar(max),
     [SourceTypeSettingsJson] nvarchar(max),

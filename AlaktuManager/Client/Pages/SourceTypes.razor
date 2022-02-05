@@ -1,0 +1,39 @@
+﻿@page "/source_types"
+@using AlaktuManager.Client.Services
+@using AlaktuManager.Shared
+
+<PageTitle>Alaktu. Manage source types</PageTitle>
+
+<h1>Manage source types</h1>
+
+    <RadzenDataGrid IsLoading="@isLoading" Count="@count" Data="@sourceTypes" LoadData="@OnInitializedAsync" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterMode="FilterMode.Advanced" AllowSorting="true" AllowFiltering="true" AllowPaging="true" PageSize="4" PagerHorizontalAlign="HorizontalAlign.Center" 
+        TItem="SourceType" ColumnWidth="200px">
+    
+        <Columns>
+            <RadzenDataGridColumn TItem="SourceType" Property="Id" Filterable="false" Title="ID" Frozen="true" Width="70px" TextAlign="TextAlign.Center" />
+            <RadzenDataGridColumn TItem="SourceType" Property="Name" Title="Name" Frozen="true" Width="140px" />
+        </Columns>
+    </RadzenDataGrid>
+
+@code {
+
+    bool isLoading;
+    int count;
+    public List<SourceType> sourceTypes { get; set; }
+
+    [Inject]
+    public IService<SourceType> sourceTypeService { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        isLoading = true;
+        
+        sourceTypes = (await sourceTypeService.GetAll()).ToList();
+
+        count = sourceTypes.Count;
+        
+        isLoading = false;
+    }
+
+}
