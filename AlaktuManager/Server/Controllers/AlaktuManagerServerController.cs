@@ -27,7 +27,7 @@ namespace AlaktuManager.Server.Controllers
 
         // GET: api/[controller]/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<TEntity>> Get(int id)
+        public async Task<ActionResult<TEntity>> Get(Int64 id)
         {
             var entity = await repository.Get(id);
             if (entity == null)
@@ -39,7 +39,7 @@ namespace AlaktuManager.Server.Controllers
 
         // PUT: api/[controller]/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, TEntity entity)
+        public async Task<IActionResult> Put(Int64 id, TEntity entity)
         {
             if (id != entity.Id)
             {
@@ -59,7 +59,7 @@ namespace AlaktuManager.Server.Controllers
 
         // DELETE: api/[controller]/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<TEntity>> Delete(int id)
+        public async Task<ActionResult<TEntity>> Delete(Int64 id)
         {
             var entity = await repository.Delete(id);
             if (entity == null)

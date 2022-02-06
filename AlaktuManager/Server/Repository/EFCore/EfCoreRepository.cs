@@ -19,7 +19,7 @@ namespace AlaktuManager.Server.Repository.EFCore
             return entity;
         }
 
-        public async Task<TEntity> Delete(int id)
+        public async Task<TEntity> Delete(Int64 id)
         {
             var entity = await context.Set<TEntity>().FindAsync(id);
             if (entity == null)
@@ -33,7 +33,7 @@ namespace AlaktuManager.Server.Repository.EFCore
             return entity;
         }
 
-        public async Task<TEntity> Get(int id)
+        public async Task<TEntity> Get(Int64 id)
         {
             return await context.Set<TEntity>().FindAsync(id);
         }

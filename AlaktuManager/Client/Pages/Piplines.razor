@@ -1,27 +1,77 @@
 ﻿@page "/piplines"
 @using AlaktuManager.Client.Services
 @using AlaktuManager.Shared
+@inject NavigationManager NavigationManager
 
 <PageTitle>Alaktu. Manage piplines</PageTitle>
 
 <h1>Manage piplines</h1>
 
-    <RadzenDataGrid IsLoading="@isLoading" Count="@count" Data="@piplines" LoadData="@OnInitializedAsync" FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" FilterMode="FilterMode.Advanced" AllowSorting="true" AllowFiltering="true" AllowPaging="true" PageSize="4" PagerHorizontalAlign="HorizontalAlign.Center" 
-        TItem="Pipline" ColumnWidth="200px">
+    <RadzenButton Click=@(args => EditPipline("null")) Text="Add New" Icon="add_circle_outline" ButtonStyle="ButtonStyle.Primary" />
+
+    <RadzenDataGrid @ref="piplinesGrid" 
+        IsLoading="@isLoading" 
+        Count="@count" 
+        Data="@piplines" 
+        LoadData="@OnInitializedAsync" 
+        EditMode="DataGridEditMode.Single"
+        RowUpdate="@OnUpdateRow" 
+        FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" 
+        FilterMode="FilterMode.Advanced" 
+        AllowSorting="true" 
+        AllowFiltering="true" 
+        AllowPaging="true" 
+        PageSize="6" 
+        PagerHorizontalAlign="HorizontalAlign.Center" 
+        TItem="Pipline" 
+        >
     
         <Columns>
+            <RadzenDataGridColumn TItem="Pipline" Context="pipline" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="120px">
+                <Template Context="pipline">
+                    <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Class="m-1" Click="@(args => EditRow(pipline))" @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="pipline">
+                    <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" Class="m-1" Click="@((args) => SaveRow(pipline))">
+                    </RadzenButton>
+                    <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Light" Class="m-1" Click="@((args) => CancelEdit(pipline))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="Pipline" Context="pipline" Filterable="false" Sortable="false" TextAlign="TextAlign.Center" Width="60px">
+                <Template Context="pipline">
+                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Small" Class="m-1" Click="@(args => DeleteRow(pipline))"  @onclick:stopPropagation="true">
+                    </RadzenButton>
+                </Template>
+                <EditTemplate Context="pipline">
+                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Small" Class="m-1" Click="@(args => DeleteRow(pipline))">
+                    </RadzenButton>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+
             <RadzenDataGridColumn TItem="Pipline" Property="Id" Filterable="false" Title="ID" Frozen="true" Width="70px" TextAlign="TextAlign.Center" />
-            <RadzenDataGridColumn TItem="Pipline" Property="Name" Title="Name" Frozen="true" Width="140px" />
+            <RadzenDataGridColumn TItem="Pipline" Property="Name" Title="Name" Frozen="true" Width="200px" >
+                <EditTemplate Context="pipline">
+                    <RadzenTextBox @bind-Value="pipline.Name" Style="display: block" Name="Name" />
+                    <RadzenRequiredValidator Text="Piline name is required" Component="Name" Popup="true" />
+                </EditTemplate>
+            </RadzenDataGridColumn>
             <RadzenDataGridColumn TItem="Pipline" Property="SourceType.Name" Title="Source Type" Frozen="true" Width="140px" />
-            <RadzenDataGridColumn TItem="Pipline" Property="IsEnabled" Title="Is Enabled" Frozen="true" Width="140px" />
-            <RadzenDataGridColumn TItem="Pipline" Property="LastProcessedAt" Title="Last Processed At" Frozen="true" Width="140px" />
-            <RadzenDataGridColumn TItem="Pipline" Property="ActualRowVersion" Title="Actual Row Version" Frozen="true" Width="140px" />
-            <RadzenDataGridColumn TItem="Pipline" Property="PrimaryKeyIsUsed" Title="Primary Key Is Used" Frozen="true" Width="140px" />
-            <RadzenDataGridColumn TItem="Pipline" Property="VersioningIsUsed" Title="Versioning Is Used" Frozen="true" Width="140px" />  
-            <RadzenDataGridColumn TItem="Pipline" Property="TransferToFlatTableIsEnabled" Title="Transfer To Flat Table Is Enabled" Frozen="true" Width="140px" />  
+            <RadzenDataGridColumn TItem="Pipline" Property="IsEnabled" Title="Is Enabled" Frozen="true" Width="40px" >
+                <Template Context="pipline">
+                    <RadzenCheckBox @bind-Value="pipline.IsEnabled" Name="Is enabled" Disabled="true"/>
+                </Template>
+                <EditTemplate Context="pipline">
+                    <RadzenCheckBox @bind-Value="pipline.IsEnabled" Name="Is enabled"/>
+                </EditTemplate>
+            </RadzenDataGridColumn>
+            <RadzenDataGridColumn TItem="Pipline" Property="LastProcessedAt" Title="Last Processed At" Frozen="true" Width="140px" >
+                <Template Context="pipline">
+                    @String.Format("{0:d}", pipline.LastProcessedAt)
+                </Template>
+            </RadzenDataGridColumn>
             <RadzenDataGridColumn TItem="Pipline" Property="LastProcessedStatus" Title="Last Processed Status" Frozen="true" Width="140px" />
-            <RadzenDataGridColumn TItem="Pipline" Property="BatchSize" Title="Batch Size" Frozen="true" Width="140px" />
-            <RadzenDataGridColumn TItem="Pipline" Property="CurrentRow" Title="Current Row" Frozen="true" Width="140px" />
         </Columns>
     </RadzenDataGrid>
 
@@ -29,7 +79,9 @@
 
     bool isLoading;
     int count;
-    public List<Pipline> piplines { get; set; }
+
+    RadzenDataGrid<Pipline> piplinesGrid;
+    public IList<Pipline> piplines { get; set; }
 
     [Inject]
     public IService<Pipline> piplineService { get; set; }
@@ -45,4 +97,45 @@
         isLoading = false;
     }
 
+    async Task EditRow(Pipline pipline)
+    {
+        await piplinesGrid.EditRow(pipline);
+    }
+
+    void OnUpdateRow(Pipline pipline)
+    {
+        piplineService.Update(pipline);
+    }
+
+    async Task SaveRow(Pipline pipline)
+    {
+        await piplinesGrid.UpdateRow(pipline);    
+    }
+
+    void CancelEdit(Pipline pipline)
+    {
+        piplinesGrid.CancelEditRow(pipline);
+    }
+
+    async Task DeleteRow(Pipline pipline)
+    {
+        if (piplines.Contains(pipline))
+        {
+            await piplineService.Delete(pipline.Id);
+
+            piplines.Remove(pipline);
+
+            await piplinesGrid.Reload();
+        }
+        else
+        {
+            piplinesGrid.CancelEditRow(pipline);
+        }
+    }
+
+    private void EditPipline(string piplineId)
+    {
+        string path = "/piplines/edit/" + piplineId;
+        NavigationManager.NavigateTo(path);
+    }
 }

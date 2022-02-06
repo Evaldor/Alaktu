@@ -3,7 +3,7 @@ using System.Net.Http.Json;
 
 namespace AlaktuManager.Client.Services
 {
-    public abstract class AlaktuManagerClientService<TEntity>  :IService<TEntity>
+    public abstract class AlaktuManagerClientService<TEntity> : IService<TEntity>
         where TEntity : class, IEntity
     {
         public readonly HttpClient httpClient;
@@ -31,15 +31,17 @@ namespace AlaktuManager.Client.Services
 
         public async Task<TEntity> Get(Int64 id)
         {
-            throw new NotImplementedException();
+            return await httpClient.GetFromJsonAsync<TEntity>(apiPath + "/" + id);
         }
         public Task<TEntity> Add(TEntity entity)
         {
             throw new NotImplementedException();
         }
-        public Task<TEntity> Update(TEntity entity)
+        public async Task<TEntity> Update(TEntity entity)
         {
-            throw new NotImplementedException();
+            httpClient.PutAsJsonAsync<TEntity>(apiPath + "/" + entity.Id.ToString(), entity);
+
+            return await httpClient.GetFromJsonAsync<TEntity>(apiPath + "/" + entity.Id.ToString());
         }
 
         public Task Delete(Int64 id)

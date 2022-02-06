@@ -1,0 +1,57 @@
+﻿@page "/piplines/edit/{Id}"
+@using AlaktuManager.Client.Services
+@using AlaktuManager.Shared
+
+<PageTitle>Alaktu. Manage piplines. Edit</PageTitle>
+<h3>Edit Pipline @Id</h3>
+
+@if (pipline == null)
+{
+    <div class="align-self-center">
+        <RadzenCard>
+            <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" />
+        </RadzenCard>
+    </div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <td>@pipline.Id.ToString()</td>
+                    <td>@pipline.Name</td>
+                </tr>
+        </tbody>
+    </table>
+}
+
+@code {
+    [Parameter]
+    public string? Id { get; set; }
+    
+    public Pipline pipline { get; set; }
+
+    [Inject]
+    public IService<Pipline> piplineService { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {   
+            Int64 _Id = Int64.Parse(Id);
+
+            pipline = (await piplineService.Get(_Id));
+        }
+        catch
+        {
+            pipline = new Pipline();
+        }
+    }
+    
+}
