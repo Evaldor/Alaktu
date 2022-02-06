@@ -31,7 +31,7 @@ namespace EventDeliveryService.Sources
 
         }
 
-        public Int32 GetSourceType()
+        public Int64 GetSourceType()
         {
             return sourceTypeId;
         }
