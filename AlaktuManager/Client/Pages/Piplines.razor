@@ -84,31 +84,34 @@
                 OnMenuItemClick((int)e.Value);
             });
 
-        
+
     }
 
     void OnMenuItemClick(int menuItem)
     {
-         if (menuItem == 1)
-         {
-             selectedPipline.IsEnabled = true;
-             UpdateRow(selectedPipline);
-         }
-         if (menuItem == 2)
-         {
-             selectedPipline.IsEnabled = false;
-             UpdateRow(selectedPipline);
-         }
-         if (menuItem == 3)
-         {
-             EditPipline(selectedPipline.Id.ToString());
-         }
-         if (menuItem == 4)
-         {
-             DeleteRow(selectedPipline);
-         }
+        if (menuItem == 1)
+        {
+            selectedPipline.IsEnabled = true;
+            UpdateRow(selectedPipline);
+            NavigationManager.NavigateTo("/piplines/",true);
+        }
+        if (menuItem == 2)
+        {
+            selectedPipline.IsEnabled = false;
+            UpdateRow(selectedPipline);
+            NavigationManager.NavigateTo("/piplines/",true);
+        }
+        if (menuItem == 3)
+        {
+            EditPipline(selectedPipline.Id.ToString());
+        }
+        if (menuItem == 4)
+        {
+            DeleteRow(selectedPipline);
+            NavigationManager.NavigateTo("/piplines/",true);
+        }
 
-         OnInitializedAsync();
+        
     }
 
     void UpdateRow(Pipline pipline)

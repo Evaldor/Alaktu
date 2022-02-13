@@ -5,7 +5,7 @@
 <PageTitle>Alaktu. Manage piplines. Edit</PageTitle>
 <h3>Edit Pipline @Id</h3>
 
-@if (pipline == null)
+@if (isLoading)
 {
     <div class="align-self-center">
         <RadzenCard>
@@ -15,21 +15,9 @@
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>@pipline.Id.ToString()</td>
-                <td>@pipline.Name</td>
-            </tr>
-        </tbody>
-    </table>
-    
+    <RadzenTextBox @bind-Value="pipline.Name" Style="width:100%; display: block" Name="Name" />
+    <RadzenDropDown @bind-Value="pipline.SourceTypeId" Data="@sourceTypes" TextProperty="Source Type" ValueProperty="SourceTypeId" Style="width:100%; display: block;" />
+            
 
 
 }
@@ -37,24 +25,39 @@ else
 @code {
     [Parameter]
     public string? Id { get; set; }
-    
+
+    bool isLoading;
+
     public Pipline pipline { get; set; }
+    public List<SourceType> sourceTypes { get; set; }
 
     [Inject]
     public IService<Pipline> piplineService { get; set; }
 
+    [Inject]
+    public IService<SourceType> sourceTypeService { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
+        isLoading = true;
+
         try
         {   
             Int64 _Id = Int64.Parse(Id);
 
             pipline = (await piplineService.Get(_Id));
+
         }
         catch
         {
             pipline = new Pipline();
         }
+        finally
+        {
+            sourceTypes = (await sourceTypeService.GetAll()).ToList();
+        }
+
+        isLoading = false;
     }
     
 }
