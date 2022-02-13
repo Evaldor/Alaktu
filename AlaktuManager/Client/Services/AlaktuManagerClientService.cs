@@ -37,8 +37,10 @@ namespace AlaktuManager.Client.Services
         public async Task<string> Add(TEntity entity)
         {
             var response = await httpClient.PostAsJsonAsync<TEntity>(apiPath, entity);
-        
-            return await response.Content.ReadAsStringAsync();
+
+            var s = await response.Content.ReadAsStringAsync();
+
+            return s;
         }
 
         public async Task<TEntity> Update(TEntity entity)

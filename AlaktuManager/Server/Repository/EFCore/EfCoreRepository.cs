@@ -45,7 +45,6 @@ namespace AlaktuManager.Server.Repository.EFCore
 
         public virtual async Task<List<TEntity>> GetView()
         {
-            //return await context.Pipline.Include("SourceType").ToListAsync();
             throw new NotImplementedException();
         }
 

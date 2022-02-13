@@ -64,7 +64,7 @@ else
     bool isLoading;
 
     public Pipline pipline { get; set; }
-    public List<SourceType> sourceTypes { get; set; }
+    public SourceType[] sourceTypes { get; set; }
 
     [Inject]
     public IService<Pipline> piplineService { get; set; }
@@ -89,7 +89,7 @@ else
         }
         finally
         {
-            sourceTypes = (await sourceTypeService.GetAll()).ToList();
+            sourceTypes = (await sourceTypeService.GetAll()).ToArray();
         }
 
         isLoading = false;
@@ -101,29 +101,20 @@ else
         {   
             Int64 _Id = Int64.Parse(Id);
 
-            piplineService.Update(pipline);
+            await piplineService.Update(pipline);
 
         }
         catch
         {
             var id = await piplineService.Add(pipline);
-            NavigationManager.NavigateTo("/piplines/edit/"+id);
+            NavigationManager.NavigateTo("/piplines/edit/"+id,true);
         }
 
     }
 
     private void Back()
     {
-        NavigationManager.NavigateTo("/piplines/");
+        NavigationManager.NavigateTo("/piplines/",true);
     }
 
-    void OnSourceTypeChange(object value)
-    {
-        SourceType newST = new SourceType();
-
-        newST = sourceTypes.Find(item => item.Id == 1);
-        pipline.SourceType = newST;
-
-
-    }
 }
