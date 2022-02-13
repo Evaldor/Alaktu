@@ -1,10 +1,23 @@
 ﻿@page "/piplines/edit/{Id}"
 @using AlaktuManager.Client.Services
 @using AlaktuManager.Shared
+@using System.Linq;
+@inject NavigationManager NavigationManager
 
 <PageTitle>Alaktu. Manage piplines. Edit</PageTitle>
-<h3>Edit Pipline @Id</h3>
+@if (Id == "null")
+{
+    <h3>New Pipline</h3>
+}
+else
+{
+    <h3>Edit Pipline</h3>
+}
 
+
+<RadzenButton Click=@(args => Back()) Text="Back" ButtonStyle="ButtonStyle.Light" />
+<RadzenButton Click=@(args => SavePipline()) Text="Save" ButtonStyle="ButtonStyle.Success" />
+<br>
 @if (isLoading)
 {
     <div class="align-self-center">
@@ -15,11 +28,33 @@
 }
 else
 {
+    <b>Name</b>
     <RadzenTextBox @bind-Value="pipline.Name" Style="width:100%; display: block" Name="Name" />
-    <RadzenDropDown @bind-Value="pipline.SourceTypeId" Data="@sourceTypes" TextProperty="Source Type" ValueProperty="SourceTypeId" Style="width:100%; display: block;" />
-            
-
-
+    <br><b>Source Type</b>
+    <RadzenDropDown @bind-Value="pipline.SourceTypeId" Data="@sourceTypes" TextProperty="Name" ValueProperty="Id" Style="width:100%; display: block;" />
+    <br><b>Source type settings</b>
+    <RadzenTextBox @bind-Value="pipline.SourceTypeSettingsJson" Style="width:100%; display: block" Name="Name" />    
+    <br><b>Sourse Connection</b>
+    <RadzenTextBox @bind-Value="pipline.SourseConnection" Style="width:100%; display: block" Name="Sourse Connection" />
+    <br><b>Sourse Credentials</b>
+    <RadzenTextBox @bind-Value="pipline.SourseCredentials" Style="width:100%; display: block" Name="Sourse Credentials" />
+    <br><b>Use primary key</b>
+    <RadzenCheckBox @bind-Value="pipline.PrimaryKeyIsUsed" Name="Use primary key" TriState="true" TValue="bool?" />
+    @if (pipline.PrimaryKeyIsUsed == true)
+    {
+        <br><b>Primary key usage config</b>
+        <RadzenTextBox @bind-Value="pipline.PrimaryKeySchemeJson" Style="width:100%; display: block" Name="Name" />
+    }  
+    <br><b>Use versioning</b>
+    <RadzenCheckBox @bind-Value="pipline.VersioningIsUsed" Name="Use primary key" TriState="true" TValue="bool?" />
+    @if (pipline.VersioningIsUsed == true)
+    {
+        <br><b>Versioning usage config</b>
+        <RadzenTextBox @bind-Value="pipline.VersioningSchemeJson" Style="width:100%; display: block" Name="Name" />
+    }
+    <br><b>Batch size</b>
+    <RadzenNumeric @bind-Value="pipline.BatchSize" Style="width:100%" />    
+    
 }
 
 @code {
@@ -59,5 +94,36 @@ else
 
         isLoading = false;
     }
-    
+
+    async void SavePipline()
+    {
+        try
+        {   
+            Int64 _Id = Int64.Parse(Id);
+
+            piplineService.Update(pipline);
+
+        }
+        catch
+        {
+            var id = await piplineService.Add(pipline);
+            NavigationManager.NavigateTo("/piplines/edit/"+id);
+        }
+
+    }
+
+    private void Back()
+    {
+        NavigationManager.NavigateTo("/piplines/");
+    }
+
+    void OnSourceTypeChange(object value)
+    {
+        SourceType newST = new SourceType();
+
+        newST = sourceTypes.Find(item => item.Id == 1);
+        pipline.SourceType = newST;
+
+
+    }
 }

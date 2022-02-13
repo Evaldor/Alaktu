@@ -12,7 +12,7 @@ namespace AlaktuManager.Shared
         [StringLength(100)]
         public string? Name { get; set; }
         public Int64 SourceTypeId { get; set; }
-        public SourceType SourceType { get; set; }
+        public SourceType? SourceType { get; set; }
         public string? SourseConnection { get; set; }
         public string? SourseCredentials { get; set; }
         [DefaultValue(false)]
