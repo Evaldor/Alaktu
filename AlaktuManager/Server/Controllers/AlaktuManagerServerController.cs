@@ -51,10 +51,10 @@ namespace AlaktuManager.Server.Controllers
 
         // POST: api/[controller]
         [HttpPost]
-        public async Task<ActionResult<TEntity>> Post(TEntity entity)
+        public async Task<IActionResult> Post(TEntity entity)
         {
             await repository.Add(entity);
-            return CreatedAtAction("Get", new { id = entity.Id }, entity);
+            return Ok(entity.Id);
         }
 
         // DELETE: api/[controller]/5

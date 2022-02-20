@@ -6,7 +6,7 @@ namespace AlaktuManager.Client.Services
     {
         Task<IEnumerable<T>> GetAll();
         Task<T> Get(Int64 id);
-        Task<T> Add(T entity);
+        Task<string> Add(T entity);
         Task<T> Update(T entity);
         Task Delete(Int64 id);
         Task<IEnumerable<T>> GetView();

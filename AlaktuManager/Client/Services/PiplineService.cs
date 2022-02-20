@@ -12,12 +12,8 @@ namespace AlaktuManager.Client.Services
 
         public override string GetApiPath()
         {
-            return "api/Piplines";
+            return "api/piplines";
         }
 
-        public override async Task<IEnumerable<Pipline>> GetView()
-        {
-            return await httpClient.GetFromJsonAsync<IEnumerable<Pipline>>(apiPath+"/view");
-        }
     }
 }

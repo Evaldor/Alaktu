@@ -24,19 +24,25 @@ namespace AlaktuManager.Client.Services
             return await httpClient.GetFromJsonAsync<IEnumerable<TEntity>>(apiPath);
         }
 
-        public virtual async Task<IEnumerable<TEntity>> GetView()
+        public async Task<IEnumerable<TEntity>> GetView()
         {
-            throw new NotImplementedException();
+            return await httpClient.GetFromJsonAsync<IEnumerable<TEntity>>(apiPath + "/view");
         }
 
         public async Task<TEntity> Get(Int64 id)
         {
             return await httpClient.GetFromJsonAsync<TEntity>(apiPath + "/" + id);
         }
-        public Task<TEntity> Add(TEntity entity)
+
+        public async Task<string> Add(TEntity entity)
         {
-            throw new NotImplementedException();
+            var response = await httpClient.PostAsJsonAsync<TEntity>(apiPath, entity);
+
+            var s = await response.Content.ReadAsStringAsync();
+
+            return s;
         }
+
         public async Task<TEntity> Update(TEntity entity)
         {
             httpClient.PutAsJsonAsync<TEntity>(apiPath + "/" + entity.Id.ToString(), entity);
@@ -44,9 +50,9 @@ namespace AlaktuManager.Client.Services
             return await httpClient.GetFromJsonAsync<TEntity>(apiPath + "/" + entity.Id.ToString());
         }
 
-        public Task Delete(Int64 id)
+        public async Task Delete(Int64 id)
         {
-            throw new NotImplementedException();
+            await httpClient.DeleteAsync(apiPath + "/" + id);
         }
     }
 }
