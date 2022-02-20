@@ -39,14 +39,14 @@ else
     <br><b>Sourse Credentials</b>
     <RadzenTextBox @bind-Value="pipline.SourseCredentials" Style="width:100%; display: block" Name="Sourse Credentials" />
     <br><b>Use primary key</b>
-    <RadzenCheckBox @bind-Value="pipline.PrimaryKeyIsUsed" Name="Use primary key" TriState="true" TValue="bool?" />
+    <RadzenCheckBox @bind-Value="pipline.PrimaryKeyIsUsed" Name="Use primary key" TValue="bool" />
     @if (pipline.PrimaryKeyIsUsed == true)
     {
         <br><b>Primary key usage config</b>
         <RadzenTextBox @bind-Value="pipline.PrimaryKeySchemeJson" Style="width:100%; display: block" Name="Name" />
     }  
     <br><b>Use versioning</b>
-    <RadzenCheckBox @bind-Value="pipline.VersioningIsUsed" Name="Use primary key" TriState="true" TValue="bool?" />
+    <RadzenCheckBox @bind-Value="pipline.VersioningIsUsed" Name="Use primary key" TValue="bool" />
     @if (pipline.VersioningIsUsed == true)
     {
         <br><b>Versioning usage config</b>

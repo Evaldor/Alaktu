@@ -19,11 +19,14 @@ namespace AlaktuManager.Shared
         public bool IsEnabled { get; set; }
         public DateTime? LastProcessedAt { get; set; }
         public byte[]? ActualRowVersion { get; set; }
-        public bool? PrimaryKeyIsUsed { get; set; }
+        [DefaultValue(false)]
+        public bool PrimaryKeyIsUsed { get; set; }
         public string? PrimaryKeySchemeJson { get; set; }
-        public bool? VersioningIsUsed { get; set; }
+        [DefaultValue(false)]
+        public bool VersioningIsUsed { get; set; }
         public string? VersioningSchemeJson { get; set; }
-        public bool? TransferToFlatTableIsEnabled { get; set; }
+        [DefaultValue(false)]
+        public bool TransferToFlatTableIsEnabled { get; set; }
         public string? TransferToFlatTableSchemeJson { get; set; }
         public string? LastProcessedStatus { get; set; }
         [DefaultValue(100000)]
